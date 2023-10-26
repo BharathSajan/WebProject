@@ -1,0 +1,114 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Channel</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/signInPage.css" />
+    <script
+      src="https://kit.fontawesome.com/33891a6c3e.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="navbarNew"></header>
+    <div
+      class="container-fluid"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <div class="channel">
+        <div class="dpAndName">
+          <div class="image">
+            <img class="channleDp" src="img/google.png" alt="" />
+          </div>
+          <h1
+            class="channelName"
+            style="
+              font-family: 'Raleway';
+              font-size: 50px;
+              font-weight: 700;
+              color: antiquewhite;
+              margin-left: 50px;
+              margin-top: 7px;
+            "
+          >
+            Music Nerds
+          </h1>
+        </div>
+        <div class="description">
+          Get ready to groove to the latest beats and discover hidden musical
+          talents within our college community. Join us for a melodic journey
+          where we'll share amazing tunes, live performances, and exclusive
+          content from our very own talented students. Stay tuned for musical
+          events, fun challenges, and more! Let's create harmony, one note at a
+          time
+        </div>
+        <div
+          class="btngrp"
+          style="display: flex; flex-direction: row; justify-content: right"
+        >
+          <button onclick="openReportModal()" class="reportBtn">
+            <i
+              class="fa-solid fa-triangle-exclamation fa-xl"
+              style="color: #000000"
+            ></i
+            >Report
+          </button>
+          <button onclick="" class="joinBtn">
+            <i class="fa-brands fa-whatsapp fa-xl" style="color: #ffffff"></i
+            >Join
+          </button>
+        </div>
+      </div>
+
+      <div id="reportModal" class="modal" style="display: none">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Report this channel</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="reportReason">Reason for report</label>
+                  <textarea
+                    class="form-control"
+                    id="reportReason"
+                    rows="4"
+                  ></textarea>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="includeNavbar.js"></script>
+    <script>
+      function openReportModal() {
+        var reportModal = new bootstrap.Modal(
+          document.getElementById("reportModal")
+        );
+        reportModal.show();
+      }
+    </script>
+  </body>
+</html>
