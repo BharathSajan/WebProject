@@ -4,7 +4,7 @@ const app = express();
 const port = 4000;
 const passport = require('./auth');
  require('./auth');
- app.use(express.static('public'));
+ app.use(express.static('views'));
 
 function isLoggedIn(req,res, next){
   req.user ? next(): res.sendStatus(401);
