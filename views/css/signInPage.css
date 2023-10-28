@@ -115,7 +115,7 @@ body{
   .dp {
     width: 50px;
     height: 50px;
-    background-color: black;
+    background-color: grey;
     margin: 0 5px;
     display: flex;
     align-items: center;
@@ -189,11 +189,11 @@ img{
 
 .formNew{
     color: antiquewhite;
-    margin-top: 40px ;
+    margin-top: 60px ;
 }
 
 .ele{
-    padding: 7px;
+    padding: 4px;
 }
 
 .submit-btn{
@@ -238,13 +238,11 @@ img{
     text-align: center;
   }
   
-  /* Style the dropdown to make it look like a menu */
   .dropdown ul li a {
     text-decoration: none;
     color: #333;
   }
   
-  /* Show the dropdown when the profile picture is clicked */
   .dp.active .dropdown {
     display: block;
   }

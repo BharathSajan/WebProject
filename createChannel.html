@@ -17,7 +17,7 @@
   </head>
   <body>
     <header class="navbarNew">
-      <a href="/channels" style="text-decoration: none; color: antiquewhite">
+      <a href="/landing" style="text-decoration: none; color: antiquewhite">
         <div style="display: flex">
           <img src="img/logo.png" alt="" class="logo" />
           <h2 style="font-size: 2rem; margin: auto">StudentSphere</h2>
@@ -54,7 +54,7 @@
       class="container-fluid"
       style="display: flex; justify-content: center; align-items: center"
     >
-      <form class="formNew">
+      <form action="/submit" class="formNew" method="POST">
         <div class="ele">
           <label for="channelName">Channel Name:</label>
           <input
@@ -62,6 +62,15 @@
             id="channelName"
             class="form-control"
             name="channelName"
+          />
+        </div>
+        <div class="ele">
+          <label for="channelName">Channel Link:</label>
+          <input
+            type="text"
+            id="channelName"
+            class="form-control"
+            name="channelLink"
           />
         </div>
         <div class="mb-3 ele">
@@ -88,7 +97,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Music"
+              value="1"
               id="Music"
               name="tags[]"
             />
@@ -98,7 +107,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Gaming"
+              value="2"
               id="Gaming"
               name="tags[]"
             />
@@ -108,7 +117,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Sports"
+              value="3"
               id="Sports"
               name="tags[]"
             />
@@ -118,7 +127,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Maths"
+              value="4"
               id="Maths"
               name="tags[]"
             />
@@ -128,7 +137,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Literature"
+              value="5"
               id="Literature"
               name="tags[]"
             />
@@ -138,7 +147,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Movies"
+              value="6"
               id="Movies"
               name="tags[]"
             />
@@ -148,7 +157,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Photography"
+              value="7"
               id="Photography"
               name="tags[]"
             />
@@ -160,7 +169,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Dance"
+              value="8"
               id="Dance"
               name="tags[]"
             />
@@ -170,7 +179,7 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Quiz"
+              value="9"
               id="Quiz"
               name="tags[]"
             />
@@ -180,11 +189,11 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value="Cooking"
-              id="Cooking"
+              value="10"
+              id="Others"
               name="tags[]"
             />
-            <label class="form-check-label" for="Cooking"> Cooking</label>
+            <label class="form-check-label" for="Cooking"> Others</label>
           </div>
         </div>
         <div class="ele">
