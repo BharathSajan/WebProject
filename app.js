@@ -6,6 +6,8 @@ const port = 4000;
 const passport = require('./auth');
  require('./auth');
 
+ const {insertChannel,getuid, insertCommunityTags,insertUserTags} = require('./dbfunctions')
+
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -107,28 +109,49 @@ app.get('/logout', (req, res) => {
 });
 
 app.post('/submit_first', (req, res) => {
-  const interests = req.body; // This will contain an array of selected interests
+  const { interests } = req.body; // This will contain an array of selected interests
+  const userEmail = req.user.email;
+  const tagArray = interests.map(JSON.parse); // Convert each element to a JavaScript object
+  for (let i = 0; i < tagArray.length; i++) {
+    const tag = tagArray[i];
+    if (typeof tag === 'number') {
+      getuid(userEmail, (err,row)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          insertUserTags(row[0]['id'],tag);
+          }
+      });
+    } else {
+      console.log("Not a number: " + tag);
+    }
+  }
 
-  // Do something with the interests data, e.g., save it to a database
-  // For this example, let's just log it
-  console.log('Selected interests:', interests);
-
-  // Send a response back to the client
-  res.json({ message: 'Interests received successfully' });
+    res.redirect('/landing');
+  
 });
+
+
 
 app.post('/submit', (req, res) => {
   // Process the form data as needed
   const { channelName, channelLink, description, status, phoneNum, tags } = req.body;
-  const userEmail = req.user.id;
+  const userEmail = req.user.email;
   const profDp = req.file;
-
   const tagArray =JSON.stringify(tags);
 
-  for (let i = 0; i < tags.length; i++) {
-    const tag = parseInt(tags[i], 10); // The second argument, 10, specifies the base (decimal).
-    console.log(tag);
-  }
+  getuid(userEmail, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log(row);
+      insertChannel(row[0]['id'],channelName,status,description,channelLink,phoneNum);
+    }
+  });
+
+  
   
   res.redirect('/landing'); // Replace '/success' with the URL of the page you want to redirect to
 });

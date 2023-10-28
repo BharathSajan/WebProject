@@ -68,8 +68,8 @@ function isUserInDatabase(email, callback) {
     });
 }
 
-function insertChannel(aid,title,stat,description,link_url){
-    db.run('INSERT INTO community(admin_id, title, status, description, link_url,create_date) VALUES (?, ?, ?, ?, ?, ?)', [aid, title, stat, description, link_url,Date()], function (err) {
+function insertChannel(aid,title,stat,description,link_url,phone){
+    db.run('INSERT INTO community(admin_id, title, status, description, link_url,create_date,phone) VALUES (?, ?, ?, ?, ?, ?,?)', [aid, title, stat, description, link_url,Date(),phone], function (err) {
         if (err) {
             console.error('Error:', err); // Log the error message for debugging;
         } else {
