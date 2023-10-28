@@ -14,46 +14,7 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    const userEmail = profile.email;
-    const userName = profile.name['givenName'] +" "+ profile.name['familyName'];
-    // console.log(typeof userNm);
-    // console.log(userEmail,userName);
-    const user = {name: userName, email: userEmail};
-    addUserToDatabase(user, function (err) {
-        if (err) {
-          console.log(err);
-          return done(err); // Handle database insertion error
-        }
-        // Redirect to the desired page after inserting the user
-        console.log("Success");
-        return done(null, profile,{redirectTo:'/studentspage'}); 
-      }); 
-    // return done(null,profile);
-    // isUserInDatabase(userEmail, function (err, userExists) {
-    //   if (err) {
-    //     return done(err); // Handle database error
-    //   }
-  
-    //   if (userExists) {
-    //     // User is in the database, store user data in session
-    //     return done(null, profile);
-    //   } else {
-    //     // User is not in the database, insert the user and then redirect
-    //     const user = {
-    //       name: profile.name,
-    //       email: profile.email
-    //     };
-        
-        // addUserToDatabase(user, function (err) {
-        //   if (err) {
-        //     return done(err); // Handle database insertion error
-        //   }
-  
-        //   // Redirect to the desired page after inserting the user
-        //   return done(null, false,{redirectTo:'/studentspage'});
-        // });
-    //   }
-    // });
+    return done(null,profile);
   }));
     
 
@@ -63,7 +24,7 @@ passport.serializeUser(function(user,done){//takes a user object and stores it i
 });
 
 
-passport.deserializeUser(function(user,done){// retrieves user data from the session and attaches it to the request object.
+passport.deserializeUser(function(user,done){
     done(null, user);
 });
 
