@@ -6,7 +6,7 @@ const port = 4000;
 const passport = require('./auth');
  require('./auth');
 
- const {insertChannel,getuid, insertCommunityTags,insertUserTags} = require('./dbfunctions')
+ const {insertChannel,getuid, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -84,6 +84,24 @@ app.get('/landing',isLoggedIn,(req, res)=>{
 });
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
+  const userEmail = req.user.email;
+  getuid(userEmail, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      myCommunities(row[0]['id'], (errs, result)=>{
+        if(errs){
+          console.log(errs);
+        }
+        else{
+          console.log(result);
+        }
+      });
+      }
+  });
+
+
   res.sendFile(__dirname + '/myChannelPage.html')
 });
 
@@ -155,6 +173,8 @@ app.post('/submit', (req, res) => {
   
   res.redirect('/landing'); // Replace '/success' with the URL of the page you want to redirect to
 });
+
+
 
 
 

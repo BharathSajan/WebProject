@@ -100,5 +100,15 @@ function insertCommunityTags(communityid,tagid){
 
 }
 
-module.exports = { getuid, isUserInDatabase, addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags };
+function myCommunities(userid,callback){
+    db.all('SELECT id,title,create_date FROM community WHERE admin_id = ? ', [userid], (err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+}
+
+module.exports = { getuid, isUserInDatabase, addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags,myCommunities };
 
