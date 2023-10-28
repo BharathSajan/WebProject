@@ -37,6 +37,18 @@ app.get('/studentspage',isLoggedIn,(req, res)=>{
   res.sendFile(__dirname + '/studentsPage.html')
 });
 
+app.get('/myChannels',isLoggedIn,(req, res)=>{
+  res.sendFile(__dirname + '/myChannelPage.html')
+});
+
+app.get('/createChannel',isLoggedIn,(req, res)=>{
+  res.sendFile(__dirname + '/createChannel.html')
+});
+app.get('/channels',isLoggedIn,(req, res)=>{
+  res.sendFile(__dirname + '/studentChannelPage.html')
+});
+
+
 app.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {

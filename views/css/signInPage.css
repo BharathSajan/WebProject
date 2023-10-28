@@ -41,8 +41,8 @@ header{
     justify-content: center;
     border: 1.5px solid antiquewhite;
     border-radius: 30px;
-    width: 40%;
-    height: 35%;
+    width: 50vw;
+    height: 40vh;
 }
 
 body{
@@ -216,3 +216,36 @@ img{
     
 }
 
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 55px;
+    right: 5px;
+    background-color: #0f9698;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown li {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  /* Style the dropdown to make it look like a menu */
+  .dropdown ul li a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  /* Show the dropdown when the profile picture is clicked */
+  .dp.active .dropdown {
+    display: block;
+  }
+  

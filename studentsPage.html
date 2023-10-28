@@ -13,7 +13,37 @@
   </head>
   <body>
     <header class="navbarNew">
-      
+      <a href="/channels" style="text-decoration: none; color: antiquewhite">
+        <div style="display: flex">
+          <img src="img/logo.png" alt="" class="logo" />
+          <h2 style="font-size: 2rem; margin: auto">StudentSphere</h2>
+        </div>
+      </a>
+      <nav>
+        <div style="display: flex; align-items: center">
+          <div class="createBtn" style="cursor: pointer">
+            <a
+              href="/createChannel"
+              style="text-decoration: none; color: antiquewhite"
+              >Create Channel</a
+            >
+          </div>
+          <div class="dp">
+            <img
+              src="img/google.png"
+              alt=""
+              class="profilePic"
+              id="dpImage"
+              onclick="toggleDropdown()"
+            />
+            <div class="dropdown" id="dpDropdown">
+              <ul>
+                <li><a href="/myChannels">My Communities</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </nav>
     </header>
     <div class="container-fluid">
@@ -338,6 +368,23 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script src="includeNavbar.js"></script>
+    <script>
+      function toggleDropdown() {
+        const dpDropdown = document.getElementById("dpDropdown");
+        dpDropdown.parentElement.classList.toggle("active");
+      }
+
+      // Close the dropdown if user clicks outside of it
+      document.addEventListener("click", function (event) {
+        const dpImage = document.getElementById("dpImage");
+        const dpDropdown = document.getElementById("dpDropdown");
+        if (
+          !dpImage.contains(event.target) &&
+          !dpDropdown.contains(event.target)
+        ) {
+          dpDropdown.parentElement.classList.remove("active");
+        }
+      });
+    </script>
   </body>
 </html>
