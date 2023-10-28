@@ -20,12 +20,12 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/signInPage.html');
   });
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['email','profile']})
+app.get('/auth/google',//this page is the portal for google
+  passport.authenticate('google', { scope: ['email','profile']})//scope refers to the application permissions we are requesting for from the user's google account.Here we ask for user's email and basic profile information.
 ) 
-app.get('/google/callback',
+app.get('/google/callback',//this page handles the result of the authentication at the google portal
   passport.authenticate('google',{
-    successRedirect: '/studentspage',
+    successRedirect: '/landing',
     failureRedirect: '/auth/failure',
 }));
 
@@ -35,6 +35,9 @@ res.send('something went wrong. .');
 
 app.get('/studentspage',isLoggedIn,(req, res)=>{
   res.sendFile(__dirname + '/studentsPage.html')
+});
+app.get('/landing',isLoggedIn,(req, res)=>{
+  res.sendFile(__dirname + '/studentChannelPage.html')
 });
 
 app.get('/logout', (req, res) => {

@@ -37,18 +37,18 @@ function addUserToDatabase(user, callback) {
     });
 }
 
-function isUserInDatabase(username) {
+function isUserInDatabase(email, callback) {
     // Execute a query to check if the user exists in the database
-    db.get('SELECT * FROM users WHERE name = ?', username, (err, row) => {
+    db.get('SELECT * FROM users WHERE email = ?', email, (err, row) => {
         if (err) {
             console.log(err)// An error occurred
         } else {
             if (row) {
                 // User exists in the database
-                return true;
+                callback(null, true);
             } else {
                 // User does not exist in the database
-                return false;
+                callback(null, false);
             }
         }
     });
