@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require("express-session");
+const db = require('./database'); 
 const app = express();
 const port = 4000;
 const passport = require('./auth');
@@ -54,6 +55,6 @@ app.get('/logout', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port http://localhost:${port}`);
   });
 
