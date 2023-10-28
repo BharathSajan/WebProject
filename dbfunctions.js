@@ -22,6 +22,20 @@ function getintrestedCommunities(userid,callback){
 
 }
 
+function getuid(Email,callback){
+    db.all('SELECT id from users where(email = ?)',[Email],(err, row) => {
+        if (err) {
+            callback(err,null);
+        } else {
+            
+           
+            callback(null, row);
+            
+        }
+    } )
+
+}
+
 function addUserToDatabase(user, callback) {
     // user parameter should be an object with properties like name, email, etc.
     const { name, email } = user;
@@ -54,4 +68,37 @@ function isUserInDatabase(email, callback) {
     });
 }
 
-module.exports = { isUserInDatabase, addUserToDatabase };
+function insertChannel(aid,title,stat,description,link_url){
+    db.run('INSERT INTO community(admin_id, title, status, description, link_url,create_date) VALUES (?, ?, ?, ?, ?, ?)', [aid, title, stat, description, link_url,Date()], function (err) {
+        if (err) {
+            console.error('Error:', err); // Log the error message for debugging;
+        } else {
+            console.log('Data inserted successfully with ID:', this.lastID);
+        }
+    });
+}
+
+function insertUserTags(userid,tagid){
+    db.run('INSERT INTO user_tags(uid,tid) VALUES(?,?)',[userid,tagid],function (err) {
+        if (err) {
+            console.error('Error:', err); // Log the error message for debugging;
+        } else {
+            console.log('Data inserted successfully with ID:', this.lastID);
+        }
+    });
+
+}
+
+function insertCommunityTags(communityid,tagid){
+    db.run('INSERT INTO community_tags(cid,tid) VALUES(?,?)',[communityidid,tagid],function (err) {
+        if (err) {
+            console.error('Error:', err); // Log the error message for debugging;
+        } else {
+            console.log('Data inserted successfully with ID:', this.lastID);
+        }
+    });
+
+}
+
+module.exports = { getuid, isUserInDatabase, addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags };
+
