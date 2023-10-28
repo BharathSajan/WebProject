@@ -19,6 +19,8 @@ const sqlCode = `
         description TEXT,
         link_url TEXT,
         create_date DATE,
+        phone number TEXT
+        image BLOB
         FOREIGN KEY (admin_id) REFERENCES users(id)
     );
 
