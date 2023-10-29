@@ -95,7 +95,8 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
           console.log(errs);
         }
         else{
-          console.log(result);
+          console.log("Community created succsesfully");
+          ;
         }
       });
       }
@@ -158,14 +159,21 @@ app.post('/submit', (req, res) => {
   const userEmail = req.user.email;
   const profDp = req.file;
   const tagArray =JSON.stringify(tags);
-
+  
   getuid(userEmail, (err,row)=>{
     if(err){
       console.log(err);
     }
     else{
       console.log(row);
-      insertChannel(row[0]['id'],channelName,status,description,channelLink,phoneNum);
+      insertChannel(row[0]['id'],channelName,status,description,channelLink,phoneNum, (err,lastid)=>{
+        if(err){
+          console.log(err);
+        }else{
+          // for(loop)
+          // insertCommunityTags(lastid,tagid);
+        }
+      });
     }
   });
 

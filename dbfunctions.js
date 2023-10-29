@@ -68,12 +68,12 @@ function isUserInDatabase(email, callback) {
     });
 }
 
-function insertChannel(aid,title,stat,description,link_url,phone){
+function insertChannel(aid,title,stat,description,link_url,phone,callback){
     db.run('INSERT INTO community(admin_id, title, status, description, link_url,create_date,phone) VALUES (?, ?, ?, ?, ?, ?,?)', [aid, title, stat, description, link_url,Date(),phone], function (err) {
         if (err) {
-            console.error('Error:', err); // Log the error message for debugging;
+            callback(err,null); // Log the error message for debugging;
         } else {
-            console.log('Data inserted successfully with ID:', this.lastID);
+           callback(null,this.lastID);
         }
     });
 }
@@ -83,7 +83,7 @@ function insertUserTags(userid,tagid){
         if (err) {
             console.error('Error:', err); // Log the error message for debugging;
         } else {
-            console.log('Data inserted successfully with ID:', this.lastID);
+            console.log('usertags inserted successfully with ID:', this.lastID);
         }
     });
 
@@ -94,7 +94,7 @@ function insertCommunityTags(communityid,tagid){
         if (err) {
             console.error('Error:', err); // Log the error message for debugging;
         } else {
-            console.log('Data inserted successfully with ID:', this.lastID);
+            console.log('communitytags inserted successfully with ID:', this.lastID);
         }
     });
 
@@ -109,6 +109,8 @@ function myCommunities(userid,callback){
         }
     });
 }
+
+
 
 module.exports = { getuid, isUserInDatabase, addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags,myCommunities };
 
