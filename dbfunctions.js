@@ -90,7 +90,7 @@ function insertUserTags(userid,tagid){
 }
 
 function insertCommunityTags(communityid,tagid){
-    db.run('INSERT INTO community_tags(cid,tid) VALUES(?,?)',[communityidid,tagid],function (err) {
+    db.run('INSERT INTO community_tags(cid,tid) VALUES(?,?)',[communityid,tagid],function (err) {
         if (err) {
             console.error('Error:', err); // Log the error message for debugging;
         } else {

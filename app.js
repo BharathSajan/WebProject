@@ -6,6 +6,8 @@ const port = 4000;
 const passport = require('./auth');
  require('./auth');
 
+ 
+
  const {insertChannel,getuid, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
@@ -96,7 +98,7 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
         }
         else{
           console.log("Community created succsesfully");
-          ;
+          
         }
       });
       }
@@ -158,7 +160,7 @@ app.post('/submit', (req, res) => {
   const { channelName, channelLink, description, status, phoneNum, tags } = req.body;
   const userEmail = req.user.email;
   const profDp = req.file;
-  const tagArray =JSON.stringify(tags);
+  const tagArray = tags.map(JSON.parse); 
   
   getuid(userEmail, (err,row)=>{
     if(err){
@@ -170,8 +172,14 @@ app.post('/submit', (req, res) => {
         if(err){
           console.log(err);
         }else{
-          // for(loop)
-          // insertCommunityTags(lastid,tagid);
+          console.log("debug print");
+          for(let i=0;i<tagArray.length;i++){
+            const tag = tagArray[i];
+            if(typeof tag === 'number'){
+              console.log(tag);
+              insertCommunityTags(lastid,tag);
+            }
+          }
         }
       });
     }
