@@ -10,7 +10,7 @@ const passport = require('./auth');
  const path = require('path');
  
 
- const {insertChannel,getuid, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
+ const {insertChannel,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -89,7 +89,26 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
 });
 
 app.get('/landing',isLoggedIn,(req, res)=>{
-  res.render('studentChannelPage');
+  const userEmail = req.user.email;
+  getuid(userEmail, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      getinterestedCommunities(row[0]['id'], (errs, result)=>{
+        if(errs){
+          console.log(errs);
+        }
+        else{
+          console.log(result);
+          res.render('studentChannelPage',{result});
+        }
+      });
+      }
+  });
+
+
+  
 });
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
@@ -104,15 +123,28 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
           console.log(errs);
         }
         else{
-          console.log("Community created succsesfully");
-          
+          res.render('myChannelPage',{result});
         }
       });
       }
   });
+  });
 
-
-  res.render('myChannelPage');
+app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
+  const id = req.params.id;
+  const userEmail = req.user.email;
+  console.log("debug rpint")
+  viewChannel(id, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log(row);
+      console.log("Community created succsesfully");
+      res.render('singleChannel',{row});
+    }
+  });
+  
 });
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
@@ -162,6 +194,7 @@ app.post('/submit_first', (req, res) => {
     res.redirect('/landing');
   
 });
+
 
 
 

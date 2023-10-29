@@ -9,7 +9,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/signInPage.css" />
+    <link rel="stylesheet" href="/css/signInPage.css" />
     <script
       src="https://kit.fontawesome.com/33891a6c3e.js"
       crossorigin="anonymous"
@@ -34,7 +34,7 @@
           </div>
           <div class="dp">
             <img
-              src="img/google.png"
+              src="/img/google.png"
               alt=""
               class="profilePic"
               id="dpImage"
@@ -70,17 +70,10 @@
               margin-top: 7px;
             "
           >
-            Music Nerds
+            <%= row[0]['title'] %>
           </h1>
         </div>
-        <div class="description">
-          Get ready to groove to the latest beats and discover hidden musical
-          talents within our college community. Join us for a melodic journey
-          where we'll share amazing tunes, live performances, and exclusive
-          content from our very own talented students. Stay tuned for musical
-          events, fun challenges, and more! Let's create harmony, one note at a
-          time
-        </div>
+        <div class="description"><%= row[0]['description'] %></div>
         <div
           class="btngrp"
           style="display: flex; flex-direction: row; justify-content: right"
@@ -92,10 +85,12 @@
             ></i
             >Report
           </button>
-          <button onclick="" class="joinBtn">
-            <i class="fa-brands fa-whatsapp fa-xl" style="color: #ffffff"></i
-            >Join
-          </button>
+          <a href="<%= row[0]['link_url']%>">
+            <button class="joinBtn">
+              <i class="fa-brands fa-whatsapp fa-xl" style="color: #ffffff"></i
+              >Join
+            </button>
+          </a>
         </div>
       </div>
 

@@ -11,8 +11,8 @@ function getAllUsers(callback) {
     });
 }
 
-function getintrestedCommunities(userid,callback){
-    db.all('SELECT community.id as Id,community.title as Title,Date as community.create_date from community,user_tags,community_tags where(user_tags.uid = ? and user_tags.tid = community_tags.tid and community_tags.cid = community.id)',userid,(err, rows) => {
+function getinterestedCommunities(userid,callback){
+    db.all('SELECT DISTINCT community.id as Id,community.title as Title,community.create_date as Date from community,user_tags,community_tags where(user_tags.uid = ? and user_tags.tid = community_tags.tid and community_tags.cid = community.id)',userid,(err, rows) => {
         if (err) {
             callback(err, null);
         } else {
@@ -110,7 +110,17 @@ function myCommunities(userid,callback){
     });
 }
 
+function viewChannel(cid,callback){
+    db.all('SELECT * FROM community WHERE id = ?',[cid],(err,rows)=>{
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+}
 
 
-module.exports = { getuid, isUserInDatabase, addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags,myCommunities };
+
+module.exports = { getuid, viewChannel,isUserInDatabase, getinterestedCommunities,addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags,myCommunities };
 

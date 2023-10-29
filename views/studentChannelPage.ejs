@@ -68,6 +68,10 @@
         </form>
       </div>
       <div class="interestHolder">
+        <% for(let i=0;i < result.length;i++) { %> <% const today = new
+        Date(result[i]['Date']); %> <% const day = today.getUTCDate(); %> <%
+        const month = today.getUTCMonth() + 1; %> <% const year =
+        today.getUTCFullYear(); %>
         <div class="interest">
           <div class="dpAndName">
             <div class="dp dpnew" style="background-color: rgb(98, 179, 179)">
@@ -81,7 +85,7 @@
                 font-size: xx-large;
               "
             >
-              Music Nerds
+              <%= result[i]['Title'] %>
             </h3>
           </div>
           <div class="dateAndBtn">
@@ -93,16 +97,19 @@
                 font-size: x-large;
               "
             >
-              23-10-2023
+              <%= day %>-<%= month %>-<%= year %>
             </h4>
-            <div class="showBtn" onclick="">
-              <i
-                class="fa-solid fa-arrow-right fa-2xl"
-                style="color: #4f4f4f"
-              ></i>
-            </div>
+            <a href="/myChannels/<%= result[i]['id'] %>">
+              <div class="showBtn" onclick="">
+                <i
+                  class="fa-solid fa-arrow-right fa-2xl"
+                  style="color: #4f4f4f"
+                ></i>
+              </div>
+            </a>
           </div>
         </div>
+        <% } %>
       </div>
     </div>
     <script
