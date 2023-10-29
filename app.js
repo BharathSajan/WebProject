@@ -81,7 +81,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
           res.sendStatus(500); // Handle database insertion error
         } else {
           // User added to the database, send the studentsPage.html
-          res.render('studentsPage');
+          res.render('studentsPage',{data: userName });
         }
       });
     }
@@ -131,7 +131,10 @@ app.get('/logout', (req, res) => {
         // Handle any potential errors here
         return next(err);
       }
-      res.send('Goodbye!');
+      setTimeout(() => {
+        // After the delay, perform the redirect
+        res.redirect('/');
+      }, 2000);
     });
   });
 });
