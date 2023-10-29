@@ -3,6 +3,22 @@ const sqlite3 = require('sqlite3').verbose();
 // Create or connect to the SQLite database
 const db = new sqlite3.Database('database1.db');
 
+//Hardcoded tag values
+const valuesToInsert = [
+
+    [1, 'Music'],
+    [2, 'Games'],
+    [3, 'Gaming'],
+    [4, 'Sports'],
+    [5, 'Literature'],
+    [6, 'Movies'],
+    [7, 'Photography'],
+    [8, 'Dance'],
+    [9, 'Quiz'],
+    [10, 'Others']
+
+];
+
 // SQL code to create tables
 const sqlCode = `
     CREATE TABLE users (
@@ -65,6 +81,24 @@ db.serialize(() => {
         }
     });
 });
+
+db.serialize(function() {
+    // Create the "tags" table
+    db.run("CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY, name TEXT)");
+
+    // Prepare the INSERT statement
+    const insert = db.prepare("INSERT INTO tags (id, name) VALUES (?, ?)");
+
+    // Insert the values
+    for (const value of valuesToInsert) {
+        insert.run(value[0], value[1]);
+    }
+
+    // Finalize the statement and close the database
+    insert.finalize();
+});
+
+
 
 // Close the database connection
 db.close();
