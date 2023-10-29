@@ -6,6 +6,8 @@ const port = 4000;
 const passport = require('./auth');
  require('./auth');
 
+
+ const path = require('path');
  
 
  const {insertChannel,getuid, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
@@ -22,7 +24,11 @@ saveUninitialized:false,
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('views'));
+app.use(express.static('public'));
+app.set('view engine','ejs');
+
+
+app.set('views', path.join(__dirname, 'views'));
 
 //database utilities
 const {isUserInDatabase, addUserToDatabase} = require('./dbfunctions');
@@ -36,7 +42,8 @@ function isLoggedIn(req,res, next){
 
 app.get('/', (req, res) => {
     // Send the 'signinPage.html' as the response
-    res.sendFile(__dirname + '/signInPage.html');
+    // res.sendFile(__dirname + '/signInPage.html');
+    res.render('signInPage');
   });
 
 app.get('/auth/google',//this page is the portal for google
@@ -74,7 +81,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
           res.sendStatus(500); // Handle database insertion error
         } else {
           // User added to the database, send the studentsPage.html
-          res.sendFile(__dirname + '/studentsPage.html');
+          res.render('studentsPage');
         }
       });
     }
@@ -82,7 +89,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
 });
 
 app.get('/landing',isLoggedIn,(req, res)=>{
-  res.sendFile(__dirname + '/studentChannelPage.html')
+  res.render('studentChannelPage');
 });
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
@@ -105,11 +112,11 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
   });
 
 
-  res.sendFile(__dirname + '/myChannelPage.html')
+  res.render('myChannelPage');
 });
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
-  res.sendFile(__dirname + '/createChannel.html')
+  res.render('createChannel');
 });
 
 
