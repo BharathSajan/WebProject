@@ -11,16 +11,16 @@ function getAllUsers(callback) {
     });
 }
 
-function getinterestedCommunities(userid,callback){
-    db.all('SELECT DISTINCT community.id as Id,community.title as Title,community.create_date as Date from community,user_tags,community_tags where(user_tags.uid = ? and user_tags.tid = community_tags.tid and community_tags.cid = community.id)',userid,(err, rows) => {
+function getAllChannels(callback) {
+    db.all('SELECT * FROM community', (err, rows) => {
         if (err) {
             callback(err, null);
         } else {
             callback(null, rows);
         }
-    } )
-
+    });
 }
+
 
 function getuid(Email,callback){
     db.all('SELECT id from users where(email = ?)',[Email],(err, row) => {
@@ -33,8 +33,78 @@ function getuid(Email,callback){
             
         }
     } )
+}
+
+function getinterestedCommunities(userid,callback){
+    db.all('SELECT DISTINCT community.id as Id,community.title as Title,community.create_date as Date from community,user_tags,community_tags where(user_tags.uid = ? and user_tags.tid = community_tags.tid and community_tags.cid = community.id)',userid,(err, rows) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    } )
 
 }
+
+function delCommunity(cid){
+    db.run('delete community where id = ?'[cid] , function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("deletion from community table is succesfull");
+        }
+    })
+}
+
+
+
+function getReported(callback){
+    db.all('select community.id,community.title,community.create_date  from reported,community where (community.id =reported.cid)' ,function(err,rows){
+        if(err){
+            callback(err,null);
+        }
+        else{
+            callback(null,rows);
+        }
+    })
+}
+
+function insertReported(){
+    db.run('INSERT INTO reported (uid,cid) VALUES (?,?)',[user,cid],function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("channel reported " +this.lastID);
+        }
+    })
+}
+
+function delReported(cid){
+    db.run('delete reported where cid = ?'[cid] , function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("deletion from reported table is succesfull");
+        }
+    })
+}
+
+
+
+function searchCommunity(Term,callback){
+    db.all('select distinct community.id,community.title,community.create_date from community,community_tags,tags where (community.id = community_tags.cid and community_tags.tid = tags.id and (community.title like ? or tags.name like ? ))',[`%${Term}%`,`%${Term}%`],(err,row)=>{
+        if(err){
+            callback(err,null);
+        }
+        else{
+            callback(null,row);
+        }
+    })
+}
+
 
 function addUserToDatabase(user, callback) {
     // user parameter should be an object with properties like name, email, etc.
@@ -122,5 +192,5 @@ function viewChannel(cid,callback){
 
 
 
-module.exports = { getuid, viewChannel,isUserInDatabase, getinterestedCommunities,addUserToDatabase, insertChannel,insertCommunityTags,insertUserTags,myCommunities };
+module.exports = { getuid, getAllChannels, viewChannel, isUserInDatabase, getinterestedCommunities, addUserToDatabase, insertChannel, insertCommunityTags, insertUserTags, myCommunities, insertReported, getReported, searchCommunity, delCommunity, delReported };
 
