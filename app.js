@@ -10,7 +10,7 @@ const passport = require('./auth');
  const path = require('path');
  
 
- const {insertChannel,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
+ const {isAdmin,insertChannel,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,8 +41,6 @@ function isLoggedIn(req,res, next){
 
 
 app.get('/', (req, res) => {
-    // Send the 'signinPage.html' as the response
-    // res.sendFile(__dirname + '/signInPage.html');
     res.render('signInPage');
   });
 
@@ -64,32 +62,46 @@ res.send('something went wrong. .');
 app.get('/studentspage', isLoggedIn, (req, res) => {
   // Gather details of the user
   const userEmail = req.user.email;
-  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
-  const user = { name: userName, email: userEmail };
 
-  isUserInDatabase(userEmail, function (err, userExists) {
-    if (err) {
-      res.sendStatus(500); // Handle database error
-    } else if (userExists) {
-      // User is in the database, redirect to '/landing'
-      res.redirect('/landing');
-    } else {
-      // User is not in the database, add them to the database
-      addUserToDatabase(user, function (err) {
-        if (err) {
-          console.log(err);
-          res.sendStatus(500); // Handle database insertion error
-        } else {
-          // User added to the database, send the studentsPage.html
-          res.render('studentsPage',{data: userName });
-        }
-      });
-    }
-  });
+  if (userEmail === "bharath.sajan@gmail.com") {
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/AdminPage');
+  } else {
+    // Non-admin user
+    const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
+    const user = { name: userName, email: userEmail };
+
+    isUserInDatabase(userEmail, function (err, userExists) {
+      if (err) {
+        res.sendStatus(500); // Handle database error
+      } else if (userExists) {
+        // User is in the database, redirect to '/landing'
+        res.redirect('/landing');
+      } else {
+        // User is not in the database, add them to the database
+        addUserToDatabase(user, function (err) {
+          if (err) {
+            console.log(err);
+            res.sendStatus(500); // Handle database insertion error
+          } else {
+            // User added to the database, send the studentsPage.html
+            res.render('studentsPage', { data: userName });
+          }
+        });
+      }
+    });
+  }
 });
+
 
 app.get('/landing',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
+  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/AdminPage');
+  } else {
   getuid(userEmail, (err,row)=>{
     if(err){
       console.log(err);
@@ -107,12 +119,19 @@ app.get('/landing',isLoggedIn,(req, res)=>{
       }
   });
 
-
-  
+  } 
 });
+
+
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
+  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/AdminPage');
+  }
+  else{
   getuid(userEmail, (err,row)=>{
     if(err){
       console.log(err);
@@ -128,11 +147,18 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
       });
       }
   });
+}
   });
 
 app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
   const id = req.params.id;
   const userEmail = req.user.email;
+  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/AdminPage');
+  }
+  else{
   console.log("debug rpint")
   viewChannel(id, (err,row)=>{
     if(err){
@@ -144,7 +170,7 @@ app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
       res.render('singleChannel',{row});
     }
   });
-  
+}
 });
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
@@ -227,13 +253,26 @@ app.post('/submit', (req, res) => {
       });
     }
   });
-
-  
-  
   res.redirect('/landing'); // Replace '/success' with the URL of the page you want to redirect to
 });
 
-
+//Admin pages
+app.get('/AdminPage',isLoggedIn, (req, res) => {
+  const userEmail = req.user.email;
+  if (userEmail != "bharath.sajan@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/studentsPage');
+  }
+  else{
+  res.render('AdminPage');}
+});
+// app.get('/AdReported', (req, res) => {
+//   res.render('AdReportedChannelPage');
+// });
+// app.get('/AdSingleReported', (req, res) => {
+//   res.render('AdSingleReportedChannelPage');
+// });
 
 
 
