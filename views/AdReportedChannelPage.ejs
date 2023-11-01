@@ -36,7 +36,18 @@
             >
           </div>
           <div class="dp">
-            <img src="img/google.png" alt="" class="profilePic" />
+            <img
+              src="img/google.png"
+              alt=""
+              class="profilePic"
+              id="dpImage"
+              onclick="toggleDropdown()"
+            />
+            <div class="dropdown" id="dpDropdown">
+              <ul>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
@@ -123,5 +134,23 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      function toggleDropdown() {
+        const dpDropdown = document.getElementById("dpDropdown");
+        dpDropdown.parentElement.classList.toggle("active");
+      }
+
+      // Close the dropdown if user clicks outside of it
+      document.addEventListener("click", function (event) {
+        const dpImage = document.getElementById("dpImage");
+        const dpDropdown = document.getElementById("dpDropdown");
+        if (
+          !dpImage.contains(event.target) &&
+          !dpDropdown.contains(event.target)
+        ) {
+          dpDropdown.parentElement.classList.remove("active");
+        }
+      });
+    </script>
   </body>
 </html>
