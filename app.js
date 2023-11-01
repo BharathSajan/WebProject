@@ -8,6 +8,8 @@ const passport = require('./auth');
 
 
  const path = require('path');
+
+ const adminEmail = "anand_b200763cs@nitc.ac.in";
  
 
  const {isAdmin,adminSearchCommunity,deleteTag,searchCommunity,insertChannel,delCommunity,delReported,getReported,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities,insertReported,getAllChannels} = require('./dbfunctions')
@@ -63,7 +65,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
   // Gather details of the user
   const userEmail = req.user.email;
 
-  if (userEmail === "itsjarvis11@gmail.com") {
+  if (userEmail === adminEmail) {
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -97,7 +99,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
 
 app.get('/landing',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
-  if (userEmail === "itsjarvis11@gmail.com") {//Admin
+  if (userEmail === adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -126,7 +128,7 @@ app.get('/landing',isLoggedIn,(req, res)=>{
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
-  if (userEmail === "itsjarvis11@gmail.com") {//Admin
+  if (userEmail === adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -177,7 +179,7 @@ app.get('/reportChannel/:id',isLoggedIn,(req, res)=>{
 app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
   const id = req.params.id;
   const userEmail = req.user.email;
-  if (userEmail === "itsjarvis11@gmail.com") {//Admin
+  if (userEmail === adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -322,7 +324,7 @@ app.post('/AdminsearchSubmit',(req,res)=>{
 
 app.get('/AdminPage',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
-  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+  if (userEmail != adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/studentsPage');
@@ -374,7 +376,7 @@ app.get('/AdminPage/:id',isLoggedIn,(req, res)=>{
 
 app.get('/reportedChannelPage',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
-  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+  if (userEmail != adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/studentsPage');
@@ -396,7 +398,7 @@ app.get('/reportedChannelPage',isLoggedIn, (req, res) => {
 app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
   const id = req.params.id;
-  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+  if (userEmail != adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/studentsPage');
@@ -438,7 +440,7 @@ app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
 app.get('/aprroveChannel/:id',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
   const id = req.params.id;
-  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+  if (userEmail != adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/studentsPage');
