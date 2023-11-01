@@ -9,7 +9,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/studentCommunityPage.css" />
+    <link rel="stylesheet" href="/css/studentCommunityPage.css" />
     <script
       src="https://kit.fontawesome.com/33891a6c3e.js"
       crossorigin="anonymous"
@@ -17,18 +17,33 @@
   </head>
   <body>
     <header class="navbarNew">
-      <div style="display: flex">
-        <img src="img/logo.png" alt="" class="logo" />
-        <h2 style="font-size: 2rem; margin: auto">StudentSphere</h2>
-      </div>
+      <a href="/AdminPage" style="text-decoration: none; color: antiquewhite">
+        <div style="display: flex">
+          <img src="/img/logo.png" alt="" class="logo" />
+          <h2 style="font-size: 2rem; margin: auto">StudentSphere - Admin</h2>
+        </div>
+      </a>
       <nav>
         <div style="display: flex; align-items: center">
-          <div
-            class="createBtn"
-            id="createBtn"
-            style="cursor: pointer"
-            data-quantity="0"
-          >
+          <div class="createBtn" id="createBtn" style="cursor: pointer">
+            <!-- <div
+              style="
+                background-color: red;
+                border-radius: 50%;
+                height: 20px;
+                width: 20px;
+                position: absolute;
+                top: 3px;
+                right: 59px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1rem;
+                font-weight: 600;
+              "
+            >
+              2
+            </div> -->
             <a
               href="/reportedChannelPage"
               style="text-decoration: none; color: antiquewhite"
@@ -51,37 +66,16 @@
           </div>
         </div>
       </nav>
-
-      <style>
-        #createBtn[data-quantity]::after {
-          contain: "";
-        }
-        #createBtn[data-quantity]::after {
-          content: "";
-          position: absolute;
-          top: 4px;
-          right: 57px;
-          width: 20px;
-          height: 20px;
-          background-color: rgb(230, 0, 0);
-          border-radius: 50%;
-          color: antiquewhite;
-          font-size: 12px;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      </style>
     </header>
     <div class="container-fluid">
       <div class="container-searchForm">
-        <form action="#" class="searchForm">
+        <form action="/AdminsearchSubmit" class="searchForm" method="POST">
           <input
             type="text"
             placeholder="Search here"
             id="searchTag"
             class="searchTag"
+            name="AdSearchForm"
           />
           <button type="submit" class="searchBtn">
             <i
@@ -92,6 +86,10 @@
         </form>
       </div>
       <div class="interestHolder">
+        <% for(let i=0;i < result.length;i++) { %> <% const today = new
+        Date(result[i]['create_date']); %> <% const day = today.getUTCDate(); %>
+        <% const month = today.getUTCMonth() + 1; %> <% const year =
+        today.getUTCFullYear(); %>
         <div class="interest">
           <div class="dpAndName">
             <div class="dp dpnew" style="background-color: rgb(98, 179, 179)">
@@ -105,7 +103,7 @@
                 font-size: xx-large;
               "
             >
-              Music Nerds
+              <%= result[i]['title'] %>
             </h3>
           </div>
           <div class="dateAndBtn">
@@ -117,16 +115,22 @@
                 font-size: x-large;
               "
             >
-              23-10-2023
+              <%= day %>-<%= month %>-<%= year %>
             </h4>
-            <div class="showBtn" onclick="">
-              <i
-                class="fa-solid fa-arrow-right fa-2xl"
-                style="color: #4f4f4f"
-              ></i>
-            </div>
+            <a
+              href="/AdminPage/<%= result[i]['id'] %>"
+              style="text-decoration: none"
+            >
+              <div class="showBtn">
+                <i
+                  class="fa-solid fa-arrow-right fa-2xl"
+                  style="color: #4f4f4f"
+                ></i>
+              </div>
+            </a>
           </div>
         </div>
+        <% } %>
       </div>
     </div>
     <script

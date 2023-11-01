@@ -161,7 +161,7 @@ img{
     font-weight: 600;
 }
 
-.reportBtn, .joinBtn{
+.reportBtn, .joinBtn , .deleteBtn,.approveBtn{
     width: 110px;
     border-radius: 20px;
     height: 42px;
@@ -177,11 +177,13 @@ img{
 .reportBtn{
     background-color: yellow;
 }
-
-.joinBtn{
-    background-color: rgb(4, 251, 4);
+.deleteBtn{
+    background-color: rgb(255, 0, 0);
 }
 
+.joinBtn , .approveBtn{
+    background-color: rgb(4, 251, 4);
+}
 
 .form-check{
     margin-left: 10px;

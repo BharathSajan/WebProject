@@ -10,7 +10,7 @@ const passport = require('./auth');
  const path = require('path');
  
 
- const {isAdmin,insertChannel,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities} = require('./dbfunctions')
+ const {isAdmin,adminSearchCommunity,deleteTag,searchCommunity,insertChannel,delCommunity,delReported,getReported,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities,insertReported,getAllChannels} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,7 +63,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
   // Gather details of the user
   const userEmail = req.user.email;
 
-  if (userEmail === "bharath.sajan@gmail.com") {
+  if (userEmail === "itsjarvis11@gmail.com") {
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -97,7 +97,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
 
 app.get('/landing',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
-  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+  if (userEmail === "itsjarvis11@gmail.com") {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -126,7 +126,7 @@ app.get('/landing',isLoggedIn,(req, res)=>{
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
   const userEmail = req.user.email;
-  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+  if (userEmail === "itsjarvis11@gmail.com") {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -150,10 +150,34 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
 }
   });
 
+app.get('/reportChannel/:id',isLoggedIn,(req, res)=>{
+  const Channel_id = req.params.id;
+  const userEmail = req.user.email;
+  getuid(userEmail, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      insertReported(row[0]['id'],Channel_id, (err)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log("redirecting to landing")
+          res.redirect('/landing');
+        }
+      });
+      }
+  });
+
+  });
+  
+  
+
 app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
   const id = req.params.id;
   const userEmail = req.user.email;
-  if (userEmail === "bharath.sajan@gmail.com") {//Admin
+  if (userEmail === "itsjarvis11@gmail.com") {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/AdminPage');
@@ -172,6 +196,8 @@ app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
   });
 }
 });
+
+
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
   res.render('createChannel');
@@ -196,6 +222,8 @@ app.get('/logout', (req, res) => {
     });
   });
 });
+
+
 
 app.post('/submit_first', (req, res) => {
   const { interests } = req.body; // This will contain an array of selected interests
@@ -256,23 +284,177 @@ app.post('/submit', (req, res) => {
   res.redirect('/landing'); // Replace '/success' with the URL of the page you want to redirect to
 });
 
+app.post('/searchSubmit',(req,res)=>{
+  const {searchForm} = req.body;
+  searchCommunity(searchForm, (err,result)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log(result);
+      
+      res.render('studentChannelPage',{result});
+    }
+  });
+});
+
+app.post('/AdminsearchSubmit',(req,res)=>{
+  const {AdSearchForm} = req.body;
+  adminSearchCommunity(AdSearchForm, (err,result)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log(result);
+      
+      res.render('AdminPage',{result});
+    }
+  });
+});
+
+
+
+
+
+
 //Admin pages
+
+
 app.get('/AdminPage',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
-  if (userEmail != "bharath.sajan@gmail.com") {//Admin
+  if (userEmail != "itsjarvis11@gmail.com") {//Admin
     // Admin user
     //console.log("Admin user: True");
     res.redirect('/studentsPage');
   }
   else{
-  res.render('AdminPage');}
+
+      getAllChannels((err,result)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(result);
+          res.render('AdminPage',{result});
+        }
+      });
+
+
+
+  
+  }
 });
+
+
+
+
+
 // app.get('/AdReported', (req, res) => {
 //   res.render('AdReportedChannelPage');
 // });
 // app.get('/AdSingleReported', (req, res) => {
 //   res.render('AdSingleReportedChannelPage');
 // });
+
+app.get('/AdminPage/:id',isLoggedIn,(req, res)=>{
+  const id = req.params.id;
+  const userEmail = req.user.email;
+  console.log("debug rpint")
+  viewChannel(id, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log(row);
+      console.log("Community created succsesfully");
+      res.render('AdSingleReportedChannelPage',{row});
+    }
+  });
+});
+
+app.get('/reportedChannelPage',isLoggedIn, (req, res) => {
+  const userEmail = req.user.email;
+  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/studentsPage');
+  }
+  else{
+
+    getReported((err,result)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(result);
+          res.render('AdReportedChannelPage',{result});
+        }
+      });
+  }
+});
+
+app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
+  const userEmail = req.user.email;
+  const id = req.params.id;
+  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/studentsPage');
+  }
+  else{
+    
+    delReported(id,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log("Deleted from reported");
+      }
+    });
+
+    deleteTag(id,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log("Deleted from tags");
+      }
+    });
+
+    delCommunity(id,(err)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log("Deleted from community table");
+          res.redirect('/AdminPage');
+        }
+      });
+      
+      
+  }
+});
+
+app.get('/aprroveChannel/:id',isLoggedIn, (req, res) => {
+  const userEmail = req.user.email;
+  const id = req.params.id;
+  if (userEmail != "itsjarvis11@gmail.com") {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/studentsPage');
+  }
+  else{
+      delReported(id,(err)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log("Deleted from reported");
+          res.redirect('/AdminPage');
+        }
+      });
+  }
+});
 
 
 

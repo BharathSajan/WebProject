@@ -9,7 +9,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/signInPage.css" />
+    <link rel="stylesheet" href="/css/signInPage.css" />
     <script
       src="https://kit.fontawesome.com/33891a6c3e.js"
       crossorigin="anonymous"
@@ -17,27 +17,42 @@
   </head>
   <body>
     <header class="navbarNew">
-      <div style="display: flex">
-        <img src="img/logo.png" alt="" class="logo" />
-        <h2 style="font-size: 2rem; margin: auto">StudentSphere</h2>
-      </div>
+      <a href="/AdminPage" style="text-decoration: none; color: antiquewhite">
+        <div style="display: flex">
+          <img src="/img/logo.png" alt="" class="logo" />
+          <h2 style="font-size: 2rem; margin: auto">StudentSphere - Admin</h2>
+        </div>
+      </a>
       <nav>
         <div style="display: flex; align-items: center">
-          <div
-            class="createBtn"
-            id="createBtn"
-            style="cursor: pointer"
-            data-quantity="0"
-          >
+          <div class="createBtn" id="createBtn" style="cursor: pointer">
+            <!-- <div
+              style="
+                background-color: red;
+                border-radius: 50%;
+                height: 20px;
+                width: 20px;
+                position: absolute;
+                top: 3px;
+                right: 59px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1rem;
+                font-weight: 600;
+              "
+            >
+              2
+            </div> -->
             <a
-              href="/reportedChannelPage.html"
+              href="/reportedChannelPage"
               style="text-decoration: none; color: antiquewhite"
               >Reported Channel</a
             >
           </div>
-          <div class="dp">
+          <div class="dp" style="background-color: #000000">
             <img
-              src="img/google.png"
+              src="/img/google.png"
               alt=""
               class="profilePic"
               id="dpImage"
@@ -51,28 +66,6 @@
           </div>
         </div>
       </nav>
-
-      <style>
-        #createBtn[data-quantity]::after {
-          contain: "";
-        }
-        #createBtn[data-quantity]::after {
-          content: "";
-          position: absolute;
-          top: 4px;
-          right: 57px;
-          width: 20px;
-          height: 20px;
-          background-color: rgb(230, 0, 0);
-          border-radius: 50%;
-          color: antiquewhite;
-          font-size: 12px;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      </style>
     </header>
     <div
       class="container-fluid"
@@ -81,7 +74,7 @@
       <div class="channel">
         <div class="dpAndName">
           <div class="image">
-            <img class="channleDp" src="img/google.png" alt="" />
+            <img class="channleDp" src="/img/google.png" alt="" />
           </div>
           <h1
             class="channelName"
@@ -94,32 +87,35 @@
               margin-top: 7px;
             "
           >
-            Music Nerds
+            <%= row[0]['title'] %>
           </h1>
         </div>
         <div class="description">
-          Get ready to groove to the latest beats and discover hidden musical
-          talents within our college community. Join us for a melodic journey
-          where we'll share amazing tunes, live performances, and exclusive
-          content from our very own talented students. Stay tuned for musical
-          events, fun challenges, and more! Let's create harmony, one note at a
-          time
+          <p><%= row[0]['description'] %></p>
+          <p>Channel Admin No. : <%= row[0]['phone'] %></p>
         </div>
         <div
           class="btngrp"
           style="display: flex; flex-direction: row; justify-content: right"
         >
-          <button class="deleteBtn" id="deleteBtn">
-            <i
-              class="fa-solid fa-triangle-exclamation fa-xl"
-              style="color: #000000"
-            ></i
-            >Delete
-          </button>
-          <button onclick="" class="approveBtn">
-            <i class="fa-brands fa-whatsapp fa-xl" style="color: #ffffff"></i
-            >Approve
-          </button>
+          <a
+            href="/deleteChannel/<%= row[0]['id']%>"
+            style="text-decoration: none"
+          >
+            <button class="deleteBtn" id="deleteBtn">
+              <i class="fa-solid fa-trash fa-l" style="color: #000000"></i>
+              Delete
+            </button>
+          </a>
+          <a
+            href="/aprroveChannel/<%= row[0]['id']%>"
+            style="text-decoration: none"
+          >
+            <button onclick="" class="approveBtn">
+              <i class="fa-regular fa-circle-check" style="color: #000000"></i
+              >Approve
+            </button>
+          </a>
         </div>
       </div>
     </div>
