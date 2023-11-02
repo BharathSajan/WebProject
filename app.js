@@ -12,7 +12,7 @@ const passport = require('./auth');
  const adminEmail = "anand_b200763cs@nitc.ac.in";
  
 
- const {isAdmin,adminSearchCommunity,deleteTag,searchCommunity,insertChannel,delCommunity,delReported,getReported,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities,insertReported,getAllChannels} = require('./dbfunctions')
+ const {isAdmin,getReportedCount,adminSearchCommunity,deleteTag,searchCommunity,insertChannel,delCommunity,delReported,getReported,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities,insertReported,getAllChannels} = require('./dbfunctions')
 
  const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -308,8 +308,15 @@ app.post('/AdminsearchSubmit',(req,res)=>{
     }
     else{
       console.log(result);
-      
-      res.render('AdminPage',{result});
+      getReportedCount((err,count)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(count);
+          res.render('AdminPage',{result:result,count: count[0]['count'] });
+        }
+      });
     }
   });
 });
@@ -337,7 +344,15 @@ app.get('/AdminPage',isLoggedIn, (req, res) => {
         }
         else{
           console.log(result);
-          res.render('AdminPage',{result});
+          getReportedCount((err,count)=>{
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log(count);
+              res.render('AdminPage',{result:result,count: count[0]['count'] });
+            }
+          });
         }
       });
 
@@ -369,7 +384,15 @@ app.get('/AdminPage/:id',isLoggedIn,(req, res)=>{
     else{
       console.log(row);
       console.log("Community created succsesfully");
-      res.render('AdSingleReportedChannelPage',{row});
+      getReportedCount((err,count)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(count);
+          res.render('AdSingleReportedChannelPage',{row:row,count: count[0]['count']  });
+        }
+      });
     }
   });
 });
@@ -389,7 +412,16 @@ app.get('/reportedChannelPage',isLoggedIn, (req, res) => {
         }
         else{
           console.log(result);
-          res.render('AdReportedChannelPage',{result});
+          getReportedCount((err,count)=>{
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log(count);
+              res.render('AdReportedChannelPage',{result:result ,count: count[0]['count'] });
+            }
+          });
+          
         }
       });
   }

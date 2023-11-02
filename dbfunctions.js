@@ -72,6 +72,17 @@ function getReported(callback){
     })
 }
 
+function getReportedCount(callback){
+    db.all('select COUNT(DISTINCT cid) as count from reported',(err,row)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            callback(null,row);
+        }
+    });
+}
+
 function insertReported(user,cid,callback){
     db.run('INSERT INTO reported (uid,cid) VALUES (?,?)',[user,cid],function(err){
         if(err){
@@ -221,5 +232,5 @@ function deleteTag(cid,callback){
 
 
 
-module.exports = { getuid,deleteTag,adminSearchCommunity ,getAllChannels, viewChannel, isUserInDatabase, getinterestedCommunities, addUserToDatabase, insertChannel, insertCommunityTags, insertUserTags, myCommunities, insertReported, getReported, searchCommunity, delCommunity, delReported };
+module.exports = { getuid,deleteTag,getReportedCount,adminSearchCommunity ,getAllChannels, viewChannel, isUserInDatabase, getinterestedCommunities, addUserToDatabase, insertChannel, insertCommunityTags, insertUserTags, myCommunities, insertReported, getReported, searchCommunity, delCommunity, delReported };
 
