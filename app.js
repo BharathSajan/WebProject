@@ -126,8 +126,8 @@ app.get('/landing',isLoggedIn,(req, res)=>{
 
 
 
-app.get('/myChannels',isLoggedIn,(req, res)=>{
-  const userEmail = req.user.email;
+app.get('/myChannels',(req, res)=>{
+  const userEmail = "28clintjoseph@gmail.com"
   if (userEmail === adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
@@ -329,8 +329,8 @@ app.post('/AdminsearchSubmit',(req,res)=>{
 //Admin pages
 
 
-app.get('/AdminPage',isLoggedIn, (req, res) => {
-  const userEmail = req.user.email;
+app.get('/AdminPage', (req, res) => {
+  const userEmail = adminEmail
   if (userEmail != adminEmail) {//Admin
     // Admin user
     //console.log("Admin user: True");
