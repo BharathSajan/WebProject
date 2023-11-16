@@ -200,6 +200,28 @@ app.get('/myChannels/:id',(req, res)=>{
 }
 });
 
+app.get('/myChannelsNew/:id',isLoggedIn,(req, res)=>{
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
+  const id = req.params.id;
+  const userEmail = req.user.email;
+  if (userEmail === adminEmail) {//Admin
+    // Admin user
+    //console.log("Admin user: True");
+    res.redirect('/AdminPage');
+  }
+  else{
+  console.log("debug rpint")
+  viewChannel(id, (err,row)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.render('withDeleteSingleChannel',{row: row, name:userName});
+    }
+  });
+}
+});
+
 
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
@@ -428,12 +450,12 @@ app.get('/reportedChannelPage',isLoggedIn, (req, res) => {
 app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
   const id = req.params.id;
-  if (userEmail != adminEmail) {//Admin
-    // Admin user
-    //console.log("Admin user: True");
-    res.redirect('/studentsPage');
-  }
-  else{
+  // if (userEmail != adminEmail) {//Admin
+  //   // Admin user
+  //   //console.log("Admin user: True");
+  //   res.redirect('/studentsPage');
+  // }
+  // else{
     
     delReported(id,(err)=>{
       if(err){
@@ -464,7 +486,7 @@ app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
       });
       
       
-  }
+  // }
 });
 
 app.get('/aprroveChannel/:id',isLoggedIn, (req, res) => {
