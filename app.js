@@ -481,7 +481,10 @@ app.get('/deleteChannel/:id',isLoggedIn, (req, res) => {
         }
         else{
           console.log("Deleted from community table");
-          res.redirect('/AdminPage');
+          if(userEmail === adminEmail)
+            res.redirect('/AdminPage');
+          else
+            res.redirect('/landing');
         }
       });
       
