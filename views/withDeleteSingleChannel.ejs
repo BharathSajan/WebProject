@@ -2,14 +2,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Channels</title>
+    <title>Channel</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/studentCommunityPage.css" />
+    <link rel="stylesheet" href="/css/signInPage.css" />
     <script
       src="https://kit.fontawesome.com/33891a6c3e.js"
       crossorigin="anonymous"
@@ -19,7 +19,7 @@
     <header class="navbarNew">
       <a href="/landing" style="text-decoration: none; color: antiquewhite">
         <div style="display: flex">
-          <img src="img/logo.png" alt="" class="logo" />
+          <img src="/img/logo.png" alt="" class="logo" />
           <h2 style="font-size: 2rem; margin: auto">StudentSphere</h2>
           <h2 style="font-size: 2rem; margin: auto 10px auto"><%= name %></h2>
         </div>
@@ -33,9 +33,9 @@
               >Create Channel</a
             >
           </div>
-          <div class="dp">
+          <div class="dp" style="background-color: #000000">
             <img
-              src="img/google.png"
+              src="/img/google.png"
               alt=""
               class="profilePic"
               id="dpImage"
@@ -51,54 +51,56 @@
         </div>
       </nav>
     </header>
-    <div class="container-fluid">
-      <div class="heading">My Channels</div>
-      <div class="interestHolder">
-        <% for(let i=0;i < result.length;i++) { %> <% const today = new
-        Date(result[i]['create_date']); %> <% const day = today.getUTCDate(); %>
-        <% const month = today.getUTCMonth() + 1; %> <% const year =
-        today.getUTCFullYear(); %>
-        <div class="interest">
-          <div class="dpAndName">
-            <div class="dp dpnew" style="background-color: rgb(98, 179, 179)">
-              <img src="img/google.png" alt="" class="profilePic" />
-            </div>
-            <h3
-              class="channelName"
-              style="
-                font-family: 'Raleway';
-                font-weight: 600;
-                font-size: xx-large;
-              "
-            >
-              <%= result[i]['title'] %>
-            </h3>
+    <div
+      class="container-fluid"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <div class="channel">
+        <div class="dpAndName">
+          <div class="image">
+            <img class="channleDp" src="/img/google.png" alt="" />
           </div>
-          <div class="dateAndBtn">
-            <h4
-              class="date"
-              style="
-                font-family: 'Poiret One';
-                font-weight: 900;
-                font-size: x-large;
-              "
-            >
-              <%= day %>-<%= month %>-<%= year %>
-            </h4>
-            <a
-              href="/myChannelsNew/<%= result[i]['id'] %>"
-              style="text-decoration: none"
-            >
-              <div class="showBtn" onclick="">
-                <i
-                  class="fa-solid fa-arrow-right fa-2xl"
-                  style="color: #4f4f4f"
-                ></i>
-              </div>
-            </a>
-          </div>
+          <h1
+            class="channelName"
+            style="
+              font-family: 'Raleway';
+              font-size: 50px;
+              font-weight: 700;
+              color: antiquewhite;
+              margin-left: 50px;
+              margin-top: 7px;
+            "
+          >
+            <%= row[0]['title'] %>
+          </h1>
         </div>
-        <% } %>
+        <div class="description">
+          <p><%= row[0]['description'] %></p>
+          <p>Channel Admin No. : <%= row[0]['phone'] %></p>
+        </div>
+        <div
+          class="btngrp"
+          style="display: flex; flex-direction: row; justify-content: right"
+        >
+          <a
+            href="/deleteChannel/<%= row[0]['id']%>"
+            style="text-decoration: none"
+          >
+            <button class="deleteBtn">
+              <i class="fa-solid fa-trash fa-l" style="color: #000000"></i>
+              Delete
+            </button>
+          </a>
+          <!-- <a
+            href="/editChannel/<%= row[0]['id']%>"
+            style="text-decoration: none"
+          >
+            <button class="joinBtn">
+              <i class="fa-brands fa-whatsapp fa-xl" style="color: #ffffff"></i
+              >Edit
+            </button>
+          </a> -->
+        </div>
       </div>
     </div>
     <script
@@ -106,6 +108,15 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      function openReportModal() {
+        var reportModal = new bootstrap.Modal(
+          document.getElementById("reportModal")
+        );
+        reportModal.show();
+      }
+    </script>
     <script>
       function toggleDropdown() {
         const dpDropdown = document.getElementById("dpDropdown");
