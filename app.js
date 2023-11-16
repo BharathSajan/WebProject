@@ -326,7 +326,7 @@ app.post('/AdminsearchSubmit',(req,res)=>{
 
 
 //Admin pages
-app.get('/AdminPage', (req, res) => {
+app.get('/AdminPage',(req, res) => {
   // const userEmail = req.user.email;
   const userEmail = adminEmail;
   if (userEmail != adminEmail) {//Admin
