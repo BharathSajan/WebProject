@@ -98,6 +98,7 @@ app.get('/studentspage', isLoggedIn, (req, res) => {
 
 
 app.get('/landing',isLoggedIn,(req, res)=>{
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
   const userEmail = req.user.email;
   if (userEmail === adminEmail) {//Admin
     // Admin user
@@ -115,7 +116,7 @@ app.get('/landing',isLoggedIn,(req, res)=>{
         }
         else{
           console.log(result);
-          res.render('studentChannelPage',{result});
+          res.render('studentChannelPage',{result: result, name:userName});
         }
       });
       }
@@ -127,6 +128,7 @@ app.get('/landing',isLoggedIn,(req, res)=>{
 
 
 app.get('/myChannels',isLoggedIn,(req, res)=>{
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
   const userEmail = req.user.email;
   if (userEmail === adminEmail) {//Admin
     res.redirect('/AdminPage');
@@ -142,7 +144,7 @@ app.get('/myChannels',isLoggedIn,(req, res)=>{
           console.log(errs);
         }
         else{
-          res.render('myChannelPage',{result});
+          res.render('myChannelPage',{result: result, name:userName});
         }
       });
       }
@@ -175,6 +177,7 @@ app.get('/reportChannel/:id',isLoggedIn,(req, res)=>{
   
 
 app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
   const id = req.params.id;
   const userEmail = req.user.email;
   if (userEmail === adminEmail) {//Admin
@@ -189,9 +192,7 @@ app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
       console.log(err);
     }
     else{
-      console.log(row);
-      console.log("Community created succsesfully");
-      res.render('singleChannel',{row});
+      res.render('singleChannel',{row: row, name:userName});
     }
   });
 }
@@ -200,7 +201,8 @@ app.get('/myChannels/:id',isLoggedIn,(req, res)=>{
 
 
 app.get('/createChannel',isLoggedIn,(req, res)=>{
-  res.render('createChannel');
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
+  res.render('createChannel',{name:userName});
 });
 
 
@@ -285,6 +287,7 @@ app.post('/submit', (req, res) => {
 });
 
 app.post('/searchSubmit',(req,res)=>{
+  const userName = req.user.name['givenName'] + ' ' + req.user.name['familyName'];
   const {searchForm} = req.body;
   searchCommunity(searchForm, (err,result)=>{
     if(err){
@@ -293,7 +296,7 @@ app.post('/searchSubmit',(req,res)=>{
     else{
       console.log(result);
       
-      res.render('studentChannelPage',{result});
+      res.render('studentChannelPage',{result:result , name : userName});
     }
   });
 });
