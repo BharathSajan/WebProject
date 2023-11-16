@@ -157,7 +157,15 @@ body{
     margin: 20px 0;
 }
 
-.dpAndName, .dateAndBtn{
+.dpAndName{
+    width: 50%;
+    height: 70%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.dateAndBtn{
     width: 50%;
     height: 70%;
     display: flex;
