@@ -9,7 +9,8 @@ const passport = require('./auth');
 
  const path = require('path');
 
- const adminEmail = "anand_b200763cs@nitc.ac.in";
+ const adminEmail = "clint_b200705cs@nitc.ac.in";
+//  const adminEmail = "anand_b200763cs@nitc.ac.in";
  
 
  const {isAdmin,getReportedCount,adminSearchCommunity,deleteTag,searchCommunity,insertChannel,delCommunity,delReported,getReported,viewChannel,getuid,getinterestedCommunities, insertCommunityTags,insertUserTags,myCommunities,insertReported,getAllChannels} = require('./dbfunctions')
@@ -320,13 +321,7 @@ app.post('/AdminsearchSubmit',(req,res)=>{
 });
 
 
-
-
-
-
 //Admin pages
-
-
 app.get('/AdminPage',isLoggedIn, (req, res) => {
   const userEmail = req.user.email;
   if (userEmail != adminEmail) {//Admin
